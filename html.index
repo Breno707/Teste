@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site Interativo</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        .container {
+            text-align: center;
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        #question {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .button {
+            font-size: 18px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            outline: none;
+            position: absolute;
+        }
+        #yes-button {
+            background-color: #4CAF50;
+            color: white;
+            z-index: 1;
+        }
+        #no-button {
+            background-color: #f44336;
+            color: white;
+            z-index: 1;
+        }
+        #heart {
+            display: none;
+            font-size: 100px;
+            color: #FF0000;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.7;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="question">Quer me dar o cú??</div>
+        <button id="yes-button" class="button" style="left: 50%; transform: translateX(-50%); top: 50px;">Sim</button>
+        <button id="no-button" class="button" style="left: 50%; transform: translateX(-50%); top: 100px;">Não</button>
+        <div id="heart">❤️</div>
+    </div>
+
+    <script>
+        document.getElementById('yes-button').addEventListener('click', function() {
+            document.getElementById('yes-button').style.display = 'none';
+            document.getElementById('no-button').style.display = 'none';
+            document.getElementById('heart').style.display = 'block';
+        });
+
+        const noButton = document.getElementById('no-button');
+
+        noButton.addEventListener('mousemove', function(event) {
+            const buttonRect = noButton.getBoundingClientRect();
+            const mouseX = event.clientX;
+            const mouseY = event.clientY;
+            const buttonCenterX = buttonRect.left + buttonRect.width / 2;
+            const buttonCenterY = buttonRect.top + buttonRect.height / 2;
+            const distanceX = Math.abs(mouseX - buttonCenterX);
+            const distanceY = Math.abs(mouseY - buttonCenterY);
+            const moveThreshold = 100; // Distância mínima para mover o botão
+
+            if (distanceX < moveThreshold && distanceY < moveThreshold) {
+                // Gerar novas coordenadas aleatórias na tela
+                const viewportWidth = window.innerWidth;
+                const viewportHeight = window.innerHeight;
+                const newLeft = Math.random() * (viewportWidth - buttonRect.width);
+                const newTop = Math.random() * (viewportHeight - buttonRect.height);
+
+                // Aplicar nova posição ao botão "Não"
+                noButton.style.left = `${newLeft}px`;
+                noButton.style.top = `${newTop}px`;
+            }
+        });
+    </script>
+</body>
+</html>
